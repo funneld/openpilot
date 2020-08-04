@@ -131,6 +131,9 @@ class CarState(CarStateBase):
         ret.gearShifter = GearShifter.reverse
       else:
         ret.gearShifter = GearShifter.unknown
+    # Manual transmission    
+    elif self.CP.carFingerprint in FEATURES["use_manual_transmission"]:
+      ret.gearShifter = GearShifter.drive
     # Gear Selecton - This is not compatible with all Kia/Hyundai's, But is the best way for those it is compatible with
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
@@ -374,7 +377,7 @@ class CarState(CarStateBase):
       ]
       checks += [("FCA11", 50)]
 
-    if CP.carFingerprint in [CAR.SANTA_FE, CAR.SANTA_FE_1]:
+    if CP.carFingerprint in [CAR.SANTA_FE, CAR.SANTA_FE_1, CAR.KONA]:
       checks.remove(("TCS13", 50))
     if CP.spasEnabled:
       if CP.mdpsBus == 1:
